@@ -1,0 +1,43 @@
+﻿@model ReleaseCandidateTracker.Models.ReleaseCandidate
+@{
+    ViewBag.Title = "Edit release candidate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<h2>
+    Change state of @Model.ProductName @Model.VersionNumber</h2>
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+@using (Html.BeginForm())
+{
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <div class="display-label">
+            Product Name</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.ProductName)
+        </div>
+        <div class="display-label">
+            Creation Date (UTC)</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.CreationDate)
+        </div>
+        <div class="editor-label">
+            @Html.LabelFor(model => model.State)
+        </div>
+        <div class="editor-field">
+            @Html.DropDownListFor(model => model.State, new SelectList(Enum.GetValues(typeof(ReleaseCandidateTracker.Models.ReleaseCandidateState))))
+            @Html.ValidationMessageFor(model => model.State)
+        </div>
+        <div class="display-label">
+            Version Number</div>
+        <div class="display-field">
+            @Html.DisplayFor(model => model.VersionNumber)
+        </div>
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+<div>
+    @Html.ActionLink("Back to List", "Index", new { productName = Model.ProductName })
+</div>

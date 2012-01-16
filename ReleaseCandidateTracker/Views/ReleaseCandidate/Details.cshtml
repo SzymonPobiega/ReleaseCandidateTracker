@@ -1,0 +1,42 @@
+﻿@model ReleaseCandidateTracker.Models.ReleaseCandidate
+
+@{
+    ViewBag.Title = "Details of release candidate";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details of @Model.ProductName @Model.VersionNumber</h2>
+
+<fieldset>
+    <div class="display-label">Product Name</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.ProductName)
+    </div>
+
+    <div class="display-label">Creation Date (UTC)</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CreationDate)
+    </div>
+
+    <div class="display-label">State</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.State)
+    </div>
+
+    <div class="display-label">Version Number</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.VersionNumber)
+    </div>
+
+    <div class="display-label">History</div>        
+    <div class="display-field">
+        @foreach (var historyItem in Model.History.Reverse()) {
+            <div>@historyItem.Date: @historyItem.StateChange</div>
+        }
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Deploy", "GetScript", new { id = Model.GetLocalId() }) |
+    @Html.ActionLink("Edit", "Edit", new { id = Model.GetLocalId(), productName = Model.ProductName }) |
+    @Html.ActionLink("Back to List", "Index", new { productName = Model.ProductName })
+</p>

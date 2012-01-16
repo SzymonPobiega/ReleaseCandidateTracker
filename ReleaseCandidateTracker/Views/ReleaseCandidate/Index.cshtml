@@ -1,0 +1,51 @@
+﻿@model IEnumerable<ReleaseCandidateTracker.Models.ReleaseCandidate>
+
+@{
+    ViewBag.Title = "Release candidate list";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Release candidates</h2>
+
+<table>
+    <tr>
+        <th>
+            ProductName
+        </th>
+        <th>
+            CreationDate (UTC)
+        </th>
+        <th>
+            State
+        </th>
+        <th>
+            VersionNumber
+        </th>
+        <th>
+            Actions
+        </th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.ProductName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.CreationDate)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.State)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.VersionNumber)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.GetLocalId() }) |
+            @Html.ActionLink("Details", "Details", new { id = item.GetLocalId() }) |
+            @Html.ActionLink("Deploy", "GetScript", new { id = item.GetLocalId() })
+        </td>
+    </tr>
+}
+
+</table>
