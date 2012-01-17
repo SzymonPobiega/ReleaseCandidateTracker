@@ -10,8 +10,8 @@ namespace ReleaseCandidateTracker.Models
         public DateTime CreationDate { get; set; }
         public ReleaseCandidateState State { get; set; }
         public string VersionNumber { get; set; }
-        public List<ReleaseCandidateHistoryItem> History { get; set; }
-        public List<ReleaseCandidateDeployment> Deployments { get; set; }
+        public IList<ReleaseCandidateHistoryItem> History { get; set; }
+        public IList<ReleaseCandidateDeployment> Deployments { get; set; }
 
         public ReleaseCandidate()
         {
