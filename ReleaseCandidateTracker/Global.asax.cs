@@ -34,6 +34,16 @@ namespace ReleaseCandidateTracker
                 });
 
             routes.MapRoute(
+                "EnvironmentApi",
+                "EnvironmentApi/{action}/{name}",
+                new
+                {
+                    controller = "EnvironmentApi",
+                    action = "Index",
+                    name = UrlParameter.Optional
+                });
+
+            routes.MapRoute(
                 "ReleaseCandidate",
                 "{controller}/{action}/{versionNumber}",
                 new

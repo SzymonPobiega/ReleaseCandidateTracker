@@ -2,6 +2,10 @@ using System;
 using System.Web.Mvc;
 using ReleaseCandidateTracker.Infrastructure;
 using ReleaseCandidateTracker.Models;
+using System.Collections.Generic;
+using System.Linq;
+using Raven.Client;
+using Raven.Client.Linq;
 
 namespace ReleaseCandidateTracker.Controllers
 {
@@ -14,11 +18,30 @@ namespace ReleaseCandidateTracker.Controllers
             return new EmptyResult();
         }
 
-        [HttpPost]
-        public ActionResult UpdateState(string versionNumber, ReleaseCandidateState state)
+        [HttpGet]
+        public ActionResult List()
         {
-            CandidateService.UpdateState(versionNumber, state);
-            return new EmptyResult();
+            var candidates = DocumentSession
+                .Query<ReleaseCandidate>()
+                .OrderByDescending(x => x.CreationDate)
+                .Take(20)
+                .ToList()
+                .Select(x => string.Format("{0};{1}",x.VersionNumber,x.State));
+
+            return new ContentResult
+                       {
+                           Content = "Version;State\r\n" + string.Join("\r\n", candidates)
+                       };
+        }
+
+        [HttpPut]
+        public ActionResult GetVersion(string name)
+        {
+            var environemt = CandidateService.FindOneByName(name);
+            return new ContentResult
+            {
+                Content = environemt.CurrentVersion
+            };
         }
 
         [HttpPost]

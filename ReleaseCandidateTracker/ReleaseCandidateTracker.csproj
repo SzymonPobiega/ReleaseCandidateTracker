@@ -112,6 +112,7 @@
   <ItemGroup>
     <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\EnvironmentApiController.cs" />
     <Compile Include="Controllers\EnvironmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReleaseCandidateController.cs" />
