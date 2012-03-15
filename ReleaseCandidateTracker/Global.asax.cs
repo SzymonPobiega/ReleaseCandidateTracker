@@ -24,14 +24,24 @@ namespace ReleaseCandidateTracker
             routes.IgnoreRoute("favicon.ico");
 
             routes.MapRoute(
-                "Default",
+                "Environment",
+                "Environment/{action}/{name}",
+                new
+                {
+                    controller = "Environment",
+                    action = "Index",
+                    name = UrlParameter.Optional
+                });
+
+            routes.MapRoute(
+                "ReleaseCandidate",
                 "{controller}/{action}/{versionNumber}",
                 new
                 {
                     controller = "ReleaseCandidate",
                     action = "Index",
                     versionNumber = UrlParameter.Optional
-                });
+                });            
         }
 
         protected void Application_Start()

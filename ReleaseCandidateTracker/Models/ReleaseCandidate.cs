@@ -29,29 +29,20 @@ namespace ReleaseCandidateTracker.Models
             State = newState;
         }
 
-        public void MarkAsDeployed(Environment environment)
+        public void MarkAsDeployed(bool success, DeploymentEnvironment environment)
         {
             var deploymentDate = DateTime.UtcNow;
             History.Add(new ReleaseCandidateHistoryItem
                             {
                                 Date = deploymentDate,
-                                StateChange = string.Format("Deployed to {0} environment.", environment)
+                                StateChange = string.Format("Deployed to {0} environment.", environment.Name)
                             });
             Deployments.Add(new ReleaseCandidateDeployment
                                 {
                                     Date = deploymentDate,
-                                    Environment = environment
+                                    Environment = environment.Name
                                 });
-        }
-
-        public int GetLocalId()
-        {
-            return int.Parse(Id.Split('/')[1]);
-        }
-
-        public static string MakeId(int localId)
-        {
-            return string.Format("ReleaseCandidates/{0}", localId);
-        }
+            environment.RecordDeployment(VersionNumber, success);
+        }        
     }
 }

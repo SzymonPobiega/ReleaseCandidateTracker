@@ -34,6 +34,13 @@
             <div>@historyItem.Date: @historyItem.StateChange</div>
         }
     </div>
+
+    <div class="display-label">Deployments</div>        
+    <div class="display-field">
+        @foreach (var deployment in Model.Deployments.Reverse()) {
+            <div>@deployment.Date: @Html.ActionLink(deployment.Environment, "Details", "Environment", new { name = deployment.Environment }, new { })</div>
+        }
+    </div>
 </fieldset>
 <p>
     @Html.ActionLink("Deploy", "GetScript", new { versionNumber = Model.VersionNumber }) |

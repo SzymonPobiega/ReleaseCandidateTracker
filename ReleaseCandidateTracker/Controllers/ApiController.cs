@@ -2,7 +2,6 @@ using System;
 using System.Web.Mvc;
 using ReleaseCandidateTracker.Infrastructure;
 using ReleaseCandidateTracker.Models;
-using Environment = ReleaseCandidateTracker.Models.Environment;
 
 namespace ReleaseCandidateTracker.Controllers
 {
@@ -23,9 +22,9 @@ namespace ReleaseCandidateTracker.Controllers
         }
 
         [HttpPost]
-        public ActionResult MarkAsDeployed(string versionNumber, Environment environment)
+        public ActionResult MarkAsDeployed(string versionNumber, string environment, bool success)
         {
-            CandidateService.MarkAsDeployed(versionNumber, environment);
+            CandidateService.MarkAsDeployed(versionNumber, environment, success);
             return new EmptyResult();
         }
 

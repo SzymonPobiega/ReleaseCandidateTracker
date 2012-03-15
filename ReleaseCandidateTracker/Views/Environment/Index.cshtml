@@ -1,0 +1,19 @@
+﻿@model IEnumerable<ReleaseCandidateTracker.Models.DeploymentEnvironment>
+
+@{
+    ViewBag.Title = "Index";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Deployment environments</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<ul>
+@foreach (var item in Model) {
+    <li>
+       @Html.ActionLink(item.Name, "Details", new { name = item.Name })        
+    </li>            
+}
+</ul>

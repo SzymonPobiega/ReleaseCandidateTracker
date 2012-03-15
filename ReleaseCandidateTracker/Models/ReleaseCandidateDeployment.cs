@@ -5,6 +5,6 @@ namespace ReleaseCandidateTracker.Models
     public class ReleaseCandidateDeployment
     {
         public DateTime Date { get; set; }
-        public Environment Environment { get; set; }
+        public string Environment { get; set; }
     }
 }

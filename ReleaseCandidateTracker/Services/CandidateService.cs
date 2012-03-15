@@ -1,9 +1,9 @@
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using Raven.Client;
 using Raven.Client.Linq;
 using ReleaseCandidateTracker.Models;
-using Environment = ReleaseCandidateTracker.Models.Environment;
 
 namespace ReleaseCandidateTracker.Services
 {
@@ -22,10 +22,11 @@ namespace ReleaseCandidateTracker.Services
             candidate.UpdateState(state);
         }
 
-        public void MarkAsDeployed(string versionNumber, Environment environment)
+        public void MarkAsDeployed(string versionNumber, string environmentName, bool success)
         {
             var candidate = FindOneByVersionNumber(versionNumber);
-            candidate.MarkAsDeployed(environment);
+            var environment = FindOneByName(environmentName);
+            candidate.MarkAsDeployed(success, environment);
         }
 
         public void Store(ReleaseCandidate candidate)
@@ -61,6 +62,19 @@ namespace ReleaseCandidateTracker.Services
             if(result == null)
             {
                 throw new ReleaseCandidateNotFoundException(versionNumber);
+            }
+            return result;
+        }
+
+
+        public DeploymentEnvironment FindOneByName(string name)
+        {
+            var result = documentSession.Query<DeploymentEnvironment>()
+                .Where(x => x.Name == name)
+                .FirstOrDefault();
+            if (result == null)
+            {
+                throw new InvalidOperationException(string.Format("Environment {0} not found", name));
             }
             return result;
         }

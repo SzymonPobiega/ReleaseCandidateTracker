@@ -112,6 +112,7 @@
   <ItemGroup>
     <Compile Include="Controllers\ApiController.cs" />
     <Compile Include="Controllers\BaseController.cs" />
+    <Compile Include="Controllers\EnvironmentController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReleaseCandidateController.cs" />
     <Compile Include="Global.asax.cs">
@@ -120,7 +121,8 @@
     <Compile Include="Infrastructure\CreatedResult.cs" />
     <Compile Include="Infrastructure\Database.cs" />
     <Compile Include="Infrastructure\ErrorResult.cs" />
-    <Compile Include="Models\Environment.cs" />
+    <Compile Include="Models\DeploymentEnvironment.cs" />
+    <Compile Include="Models\EnvironmentHistoryItem.cs" />
     <Compile Include="Models\ReleaseCandidateDeployment.cs" />
     <Compile Include="Models\ReleaseCandidate.cs" />
     <Compile Include="Models\ReleaseCandidateHistoryItem.cs" />
@@ -203,6 +205,15 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="Views\ReleaseCandidate\Edit.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Environment\Index.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Environment\Create.cshtml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="Views\Environment\Details.cshtml" />
   </ItemGroup>
   <Import Project="$(MSBuildBinPath)\Microsoft.CSharp.targets" />
   <Import Project="$(MSBuildExtensionsPath32)\Microsoft\VisualStudio\v10.0\WebApplications\Microsoft.WebApplication.targets" />

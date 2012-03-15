@@ -1,0 +1,24 @@
+﻿@model ReleaseCandidateTracker.Models.DeploymentEnvironment
+
+@{
+    ViewBag.Title = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Details of @Model.Name environment</h2>
+
+<fieldset>
+    <div class="display-label">Current version</div>
+    <div class="display-field">
+        @Html.DisplayFor(model => model.CurrentVersion)
+    </div>
+    <div class="display-label">History</div>        
+    <div class="display-field">
+        @foreach (var historyItem in Model.History.Reverse()) {
+            <div>@historyItem.Date: @(historyItem.Success ? "Successful" : "Failed") deployment of version @Html.ActionLink(historyItem.Version, "Details", "ReleaseCandidate", new { versionNumber = historyItem.Version }, new { })</div>
+        }
+    </div>
+</fieldset>
+<p>
+    @Html.ActionLink("Back to List", "Index")
+</p>

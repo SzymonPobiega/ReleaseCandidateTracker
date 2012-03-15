@@ -1,0 +1,26 @@
+﻿@model ReleaseCandidateTracker.Models.DeploymentEnvironment
+
+@{
+    ViewBag.Title = "Create";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Create new environment</h2>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <fieldset>
+        <div class="display-label">
+            Name</div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.Name)
+        </div>
+        <p>
+            <input type="submit" value="Create" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
