@@ -110,6 +110,8 @@
     <Reference Include="System.EnterpriseServices" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controllers\ApiController.cs" />
+    <Compile Include="Controllers\BaseController.cs" />
     <Compile Include="Controllers\HomeController.cs" />
     <Compile Include="Controllers\ReleaseCandidateController.cs" />
     <Compile Include="Global.asax.cs">
@@ -117,14 +119,18 @@
     </Compile>
     <Compile Include="Infrastructure\CreatedResult.cs" />
     <Compile Include="Infrastructure\Database.cs" />
+    <Compile Include="Infrastructure\ErrorResult.cs" />
     <Compile Include="Models\Environment.cs" />
     <Compile Include="Models\ReleaseCandidateDeployment.cs" />
     <Compile Include="Models\ReleaseCandidate.cs" />
-    <Compile Include="Models\ReleaseCandidateEditModel.cs" />
     <Compile Include="Models\ReleaseCandidateHistoryItem.cs" />
     <Compile Include="Models\ReleaseCandidateCreateModel.cs" />
     <Compile Include="Models\ReleaseCandidateState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Services\CandidateService.cs" />
+    <Compile Include="Services\ReleaseCandidateAlreadyExistsException.cs" />
+    <Compile Include="Services\ReleaseCandidateNotFoundException.cs" />
+    <Compile Include="Services\ScriptService.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="Content\themes\base\images\ui-bg_flat_0_aaaaaa_40x100.png" />
@@ -177,12 +183,6 @@
     <Content Include="Scripts\jquery.unobtrusive-ajax.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
-    <Content Include="Scripts\MicrosoftAjax.js" />
-    <Content Include="Scripts\MicrosoftAjax.debug.js" />
-    <Content Include="Scripts\MicrosoftMvcAjax.js" />
-    <Content Include="Scripts\MicrosoftMvcAjax.debug.js" />
-    <Content Include="Scripts\MicrosoftMvcValidation.js" />
-    <Content Include="Scripts\MicrosoftMvcValidation.debug.js" />
     <Content Include="Views\_ViewStart.cshtml" />
     <Content Include="Views\Home\About.cshtml" />
     <Content Include="Views\Shared\Error.cshtml" />

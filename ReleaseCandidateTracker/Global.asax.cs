@@ -25,12 +25,12 @@ namespace ReleaseCandidateTracker
 
             routes.MapRoute(
                 "Default",
-                "{controller}/{action}/{id}",
+                "{controller}/{action}/{versionNumber}",
                 new
                 {
                     controller = "ReleaseCandidate",
                     action = "Index",
-                    id = UrlParameter.Optional
+                    versionNumber = UrlParameter.Optional
                 });
         }
 

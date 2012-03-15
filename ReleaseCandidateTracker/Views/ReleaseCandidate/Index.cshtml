@@ -41,9 +41,9 @@
             @Html.DisplayFor(modelItem => item.VersionNumber)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.GetLocalId() }) |
-            @Html.ActionLink("Details", "Details", new { id = item.GetLocalId() }) |
-            @Html.ActionLink("Deploy", "GetScript", new { id = item.GetLocalId() })
+            @Html.ActionLink("Edit", "Edit", new { versionNumber = item.VersionNumber }) |
+            @Html.ActionLink("Details", "Details", new { versionNumber = item.VersionNumber }) |
+            @Html.ActionLink("Deploy", "GetScript", new { versionNumber = item.VersionNumber })
         </td>
     </tr>
 }
