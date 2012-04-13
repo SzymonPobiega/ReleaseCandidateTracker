@@ -15,7 +15,7 @@ namespace ReleaseCandidateTracker.Controllers
         [HttpGet]
         public ActionResult GetScript(string versionNumber)
         {
-            var candidate = CandidateService.FindOneByVersionNumber(versionNumber);
+            var candidate = CandidateService.GetCandidate(versionNumber);
             var attachment = ScriptService.GetScript(versionNumber);
             if (attachment != null)
             {
@@ -31,14 +31,14 @@ namespace ReleaseCandidateTracker.Controllers
         [HttpGet]
         public ActionResult Details(string versionNumber)
         {
-            var candidate = CandidateService.FindOneByVersionNumber(versionNumber);
+            var candidate = CandidateService.GetCandidate(versionNumber);
             return View(candidate);
         }
 
         [HttpGet]
         public ActionResult Edit(string versionNumber)
         {
-            var candidate = CandidateService.FindOneByVersionNumber(versionNumber);
+            var candidate = CandidateService.GetCandidate(versionNumber);
             return View(candidate);
         }
 

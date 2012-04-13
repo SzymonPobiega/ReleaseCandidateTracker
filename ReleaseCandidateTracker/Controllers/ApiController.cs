@@ -37,7 +37,7 @@ namespace ReleaseCandidateTracker.Controllers
         [HttpPut]
         public ActionResult GetVersion(string name)
         {
-            var environemt = CandidateService.FindOneByName(name);
+            var environemt = CandidateService.GetEnvironment(name);
             return new ContentResult
             {
                 Content = environemt.CurrentVersion

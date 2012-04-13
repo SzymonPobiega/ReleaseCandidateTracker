@@ -4,6 +4,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using ReleaseCandidateTracker.Models;
+using ReleaseCandidateTracker.Services;
 
 namespace ReleaseCandidateTracker.Controllers
 {
@@ -19,7 +20,7 @@ namespace ReleaseCandidateTracker.Controllers
 
         public ActionResult Details(string name)
         {
-            var environment = CandidateService.FindOneByName(name);
+            var environment = CandidateService.GetEnvironment(name);
             return View(environment);
         }
 
@@ -31,7 +32,7 @@ namespace ReleaseCandidateTracker.Controllers
         [HttpPost]
         public ActionResult Create(DeploymentEnvironment environment)
         {
-            DocumentSession.Store(environment);
+            DocumentSession.Store(environment, environment.Name.MakeEnvironmentId());
             return RedirectToAction("Index");
         }        
     }

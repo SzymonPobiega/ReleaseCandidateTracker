@@ -18,27 +18,25 @@ namespace ReleaseCandidateTracker.Services
 
         public void UpdateState(string versionNumber, ReleaseCandidateState state)
         {
-            var candidate = FindOneByVersionNumber(versionNumber);
+            var candidate = GetCandidate(versionNumber);
             candidate.UpdateState(state);
         }
 
         public void MarkAsDeployed(string versionNumber, string environmentName, bool success)
         {
-            var candidate = FindOneByVersionNumber(versionNumber);
-            var environment = FindOneByName(environmentName);
+            var candidate = GetCandidate(versionNumber);
+            var environment = GetEnvironment(environmentName);
             candidate.MarkAsDeployed(success, environment);
         }
 
         public void Store(ReleaseCandidate candidate)
         {
-            var existing = documentSession.Query<ReleaseCandidate>()
-                .Where(x => x.VersionNumber == candidate.VersionNumber)
-                .Any();
-            if (existing)
+            var existing = documentSession.Load<ReleaseCandidate>(candidate.VersionNumber.MakeCandidateId());
+            if (existing != null)
             {
                 throw new ReleaseCandidateAlreadyExistsException(candidate.VersionNumber);
             }
-            documentSession.Store(candidate);
+            documentSession.Store(candidate, candidate.VersionNumber.MakeCandidateId());
         }
 
         public IList<ReleaseCandidate> GetAll(string productName)
@@ -54,11 +52,9 @@ namespace ReleaseCandidateTracker.Services
             return filteredQuery.ToList();
         }
 
-        public ReleaseCandidate FindOneByVersionNumber(string versionNumber)
+        public ReleaseCandidate GetCandidate(string versionNumber)
         {
-            var result = documentSession.Query<ReleaseCandidate>()
-                .Where(x => x.VersionNumber == versionNumber)
-                .FirstOrDefault();
+            var result = documentSession.Load<ReleaseCandidate>(versionNumber.MakeCandidateId());
             if(result == null)
             {
                 throw new ReleaseCandidateNotFoundException(versionNumber);
@@ -67,11 +63,9 @@ namespace ReleaseCandidateTracker.Services
         }
 
 
-        public DeploymentEnvironment FindOneByName(string name)
+        public DeploymentEnvironment GetEnvironment(string name)
         {
-            var result = documentSession.Query<DeploymentEnvironment>()
-                .Where(x => x.Name == name)
-                .FirstOrDefault();
+            var result = documentSession.Load<DeploymentEnvironment>(name.MakeEnvironmentId());
             if (result == null)
             {
                 throw new InvalidOperationException(string.Format("Environment {0} not found", name));

@@ -16,6 +16,7 @@
     <MvcBuildViews>false</MvcBuildViews>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <UseIISExpress>false</UseIISExpress>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -131,6 +132,7 @@
     <Compile Include="Models\ReleaseCandidateState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Services\CandidateService.cs" />
+    <Compile Include="Services\IdExtensions.cs" />
     <Compile Include="Services\ReleaseCandidateAlreadyExistsException.cs" />
     <Compile Include="Services\ReleaseCandidateNotFoundException.cs" />
     <Compile Include="Services\ScriptService.cs" />
