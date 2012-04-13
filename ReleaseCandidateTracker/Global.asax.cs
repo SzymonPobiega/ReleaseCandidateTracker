@@ -31,7 +31,7 @@ namespace ReleaseCandidateTracker
                     controller = "Environment",
                     action = "Index",
                     name = UrlParameter.Optional
-                });
+                });            
 
             routes.MapRoute(
                 "EnvironmentApi",

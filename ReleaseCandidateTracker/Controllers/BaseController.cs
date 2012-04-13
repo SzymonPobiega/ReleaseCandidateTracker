@@ -1,15 +1,12 @@
 using System.Web.Mvc;
 using Raven.Client;
 using ReleaseCandidateTracker.Infrastructure;
-using ReleaseCandidateTracker.Services;
 
 namespace ReleaseCandidateTracker.Controllers
 {
-    public class BaseController : Controller
+    public abstract class BaseController : Controller
     {
         public IDocumentSession DocumentSession { get; private set; }
-        public CandidateService CandidateService { get; private set; }
-        public ScriptService ScriptService { get; private set; }
 
         protected override void OnActionExecuting(ActionExecutingContext filterContext)
         {
@@ -18,8 +15,6 @@ namespace ReleaseCandidateTracker.Controllers
                 return;
             }
             DocumentSession = Database.Instance.OpenSession();
-            CandidateService = new CandidateService(DocumentSession);
-            ScriptService = new ScriptService(DocumentSession);
             base.OnActionExecuting(filterContext);
         }
         

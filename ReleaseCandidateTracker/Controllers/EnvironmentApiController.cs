@@ -8,7 +8,7 @@ using Raven.Client.Linq;
 
 namespace ReleaseCandidateTracker.Controllers
 {
-    public class EnvironmentApiController : BaseController
+    public class EnvironmentApiController : ApiController
     {
         [HttpGet]
         public ActionResult List()
