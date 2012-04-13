@@ -67,7 +67,14 @@ namespace ReleaseCandidateTracker.Controllers
 
         protected override void OnException(ExceptionContext filterContext)
         {
-            filterContext.Result = new ErrorResult(filterContext.Exception.Message);
+            if (filterContext.Exception is ApplicationException)
+            {
+                filterContext.Result = new ErrorResult(filterContext.Exception.Message);
+            }
+            else
+            {
+                filterContext.Result = new ErrorResult(filterContext.Exception.ToString());
+            }
             filterContext.ExceptionHandled = true;
         }
     }

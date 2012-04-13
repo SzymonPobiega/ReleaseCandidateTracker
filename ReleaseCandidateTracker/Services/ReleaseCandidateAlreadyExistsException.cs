@@ -2,7 +2,7 @@
 
 namespace ReleaseCandidateTracker.Services
 {
-    public class ReleaseCandidateAlreadyExistsException : Exception
+    public class ReleaseCandidateAlreadyExistsException : ApplicationException
     {
         private readonly string version;
 

@@ -5,7 +5,6 @@ namespace ReleaseCandidateTracker.Models
 {
     public class DeploymentEnvironment
     {
-        //public string Id { get; set; }
         public string Name { get; set; }
         public string CurrentVersion { get; set; }
         public IList<EnvironmentHistoryItem> History { get; set; }
