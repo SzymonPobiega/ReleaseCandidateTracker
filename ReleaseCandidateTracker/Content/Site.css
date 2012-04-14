@@ -321,3 +321,14 @@ div#title {
 .tri-state {
     width: 6em;
 }
+/* Custom
+*/
+#candidateDetails 
+{
+    width : 50%;
+}
+#releaseNotes
+{
+    float : right;
+    width : 45%;
+}

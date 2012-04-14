@@ -1,49 +1,54 @@
-﻿@model ReleaseCandidateTracker.Models.ReleaseCandidate
+﻿@model ReleaseCandidateTracker.ViewModels.ReleaseCandidateViewModel
 
 @{
     ViewBag.Title = "Details of release candidate";
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h2>Details of @Model.ProductName @Model.VersionNumber</h2>
-
-<fieldset>
+<h2>Details of @Model.Candidate.ProductName @Model.Candidate.VersionNumber</h2>
+<div id="releaseNotes">
+<h3>Release notes</h3>
+@Html.Raw(Model.ReleaseNotes)
+</div>
+<fieldset id="candidateDetails">
     <div class="display-label">Product Name</div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.ProductName)
+        @Html.DisplayFor(model => model.Candidate.ProductName)
     </div>
 
     <div class="display-label">Creation Date (UTC)</div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.CreationDate)
+        @Html.DisplayFor(model => model.Candidate.CreationDate)
     </div>
 
     <div class="display-label">State</div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.State)
+        @Html.DisplayFor(model => model.Candidate.State)
     </div>
 
     <div class="display-label">Version Number</div>
     <div class="display-field">
-        @Html.DisplayFor(model => model.VersionNumber)
+        @Html.DisplayFor(model => model.Candidate.VersionNumber)
     </div>
 
     <div class="display-label">History</div>        
     <div class="display-field">
-        @foreach (var historyItem in Model.History.Reverse()) {
+        @foreach (var historyItem in Model.Candidate.History.Reverse())
+        {
             <div>@historyItem.Date: @historyItem.StateChange</div>
         }
     </div>
 
     <div class="display-label">Deployments</div>        
     <div class="display-field">
-        @foreach (var deployment in Model.Deployments.Reverse()) {
+        @foreach (var deployment in Model.Candidate.Deployments.Reverse())
+        {
             <div>@deployment.Date: @Html.ActionLink(deployment.Environment, "Details", "Environment", new { name = deployment.Environment }, new { })</div>
         }
     </div>
 </fieldset>
 <p>    
-    @Html.ActionLink("Deploy", "GetScript", "ReleaseCandidateApi", new { versionNumber = Model.VersionNumber }, new object()) |
-    @Html.ActionLink("Edit", "Edit", new { versionNumber = Model.VersionNumber }) |
+    @Html.ActionLink("Deploy", "GetScript", "ReleaseCandidateApi", new { versionNumber = Model.Candidate.VersionNumber }, new object()) |
+    @Html.ActionLink("Edit", "Edit", new { versionNumber = Model.Candidate.VersionNumber }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

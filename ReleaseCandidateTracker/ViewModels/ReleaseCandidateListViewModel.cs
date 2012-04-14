@@ -1,8 +1,9 @@
 using System.Collections.Generic;
+using ReleaseCandidateTracker.Models;
 
-namespace ReleaseCandidateTracker.Models
+namespace ReleaseCandidateTracker.ViewModels
 {
-    public class ReleaseCandidateList
+    public class ReleaseCandidateListViewModel
     {
         public List<ReleaseCandidate> Items { get; set; }
         public int Page { get; set; }

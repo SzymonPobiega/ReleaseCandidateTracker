@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Web.Mvc;
 using Raven.Client.Linq;
 using ReleaseCandidateTracker.Models;
+using ReleaseCandidateTracker.ViewModels;
 
 namespace ReleaseCandidateTracker.Controllers
 {
@@ -27,7 +29,7 @@ namespace ReleaseCandidateTracker.Controllers
 
             var currentPage = page ?? 1;
             var pageCount = (int)Math.Ceiling(totalCount / (decimal) PageSize);
-            return View(new ReleaseCandidateList
+            return View(new ReleaseCandidateListViewModel
                             {
                                 Items = allCandidates,
                                 Page = currentPage,
@@ -48,7 +50,23 @@ namespace ReleaseCandidateTracker.Controllers
         public ActionResult Details(string versionNumber)
         {
             var candidate = DocumentSession.GetCandidate(versionNumber);
-            return View(candidate);
+            var notesAttachment = DocumentSession.Advanced.DatabaseCommands.GetAttachment(versionNumber.MakeCustomDocumentKey("release-notes.txt"));
+            string releaseNotesText;
+            using (var stream = notesAttachment.Data())
+            {
+                releaseNotesText = new StreamReader(stream).ReadToEnd();
+            }
+            return View(new ReleaseCandidateViewModel
+                            {
+                                Candidate = candidate,
+                                ReleaseNotes = FormatReleaseNotesForHtml(releaseNotesText)
+                            });
+        }
+
+        private static string FormatReleaseNotesForHtml(string releaseNotesText)
+        {
+            var items = releaseNotesText.Split(new[] {'\n', '\r'}, StringSplitOptions.RemoveEmptyEntries);
+            return "<ul>" + string.Join(Environment.NewLine, items.Select(x => "<li>" + x.TrimStart(' ','*') + "</li>")) + "</ul>";
         }
 
         [HttpGet]
