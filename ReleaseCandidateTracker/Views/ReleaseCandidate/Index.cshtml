@@ -1,4 +1,4 @@
-﻿@model IEnumerable<ReleaseCandidateTracker.Models.ReleaseCandidate>
+﻿@model ReleaseCandidateTracker.Models.ReleaseCandidateList
 
 @{
     ViewBag.Title = "Release candidate list";
@@ -26,7 +26,7 @@
         </th>
     </tr>
 
-@foreach (var item in Model) {
+@foreach (var item in Model.Items) {
     <tr>
         <td>
             @Html.DisplayFor(modelItem => item.ProductName)
@@ -47,5 +47,13 @@
         </td>
     </tr>
 }
-
 </table>
+<div id="nextPage">
+@if (!Model.First) {
+@Html.ActionLink("<< Prev", "Index", new { page = Model.Page - 1 })
+}
+@if (!Model.First && !Model.Last) {<text>&nbsp;|&nbsp;</text>}
+@if (!Model.Last) {
+@Html.ActionLink("Next >>", "Index", new { page = Model.Page + 1 })
+}
+</div>

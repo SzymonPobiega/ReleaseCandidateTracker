@@ -130,6 +130,7 @@
     <Compile Include="Models\ReleaseCandidate.cs" />
     <Compile Include="Models\ReleaseCandidateHistoryItem.cs" />
     <Compile Include="Models\ReleaseCandidateCreateModel.cs" />
+    <Compile Include="Models\ReleaseCandidateList.cs" />
     <Compile Include="Models\ReleaseCandidateState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="DocumentSessionExtensions.cs" />
