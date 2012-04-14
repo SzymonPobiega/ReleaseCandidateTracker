@@ -2,6 +2,8 @@
 {
     public static class IdExtensions
     {
+        
+
         public static string MakeCandidateId(this string version)
         {
             return "candidates/" + version;
@@ -12,14 +14,9 @@
             return "environments/" + name;
         }
 
-        public static string MakeDeploymentScriptKey(this string version)
+        public static string MakeCustomDocumentKey(this string version, string userSuppliedKey)
         {
-            return string.Format("deploy-{0}.ps1", version);
-        }
-
-        public static string MakeReleaseNotesKey(this string version)
-        {
-            return string.Format("release-notes-{0}.txt", version);
+            return string.Format("{0}-{1}", version, userSuppliedKey);
         }
     }
 }

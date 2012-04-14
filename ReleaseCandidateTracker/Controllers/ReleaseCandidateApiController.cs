@@ -7,14 +7,7 @@ using Raven.Client.Linq;
 namespace ReleaseCandidateTracker.Controllers
 {
     public class ReleaseCandidateApiController : ApiController
-    {
-        [HttpPut]
-        public ActionResult AttachScript(string versionNumber)
-        {
-            DocumentSession.PutAttachment(versionNumber.MakeDeploymentScriptKey(), Request.InputStream);
-            return new EmptyResult();
-        }
-
+    {        
         [HttpPost]
         public ActionResult UpdateState(string versionNumber, ReleaseCandidateState state)
         {
@@ -31,11 +24,11 @@ namespace ReleaseCandidateTracker.Controllers
                 .OrderByDescending(x => x.CreationDate)
                 .Take(20)
                 .ToList()
-                .Select(x => string.Format("{0};{1}",x.VersionNumber,x.State));
+                .Select(x => string.Format("{0};{1};{2}",x.VersionNumber,x.State,x.CreationDate.ToString("s")));
 
             return new ContentResult
                        {
-                           Content = "Version;State\r\n" + string.Join("\r\n", candidates)
+                           Content = "Version;State;CreationDate\r\n" + string.Join("\r\n", candidates)
                        };
         }
 
@@ -77,11 +70,44 @@ namespace ReleaseCandidateTracker.Controllers
             return new EmptyResult();
         }
 
-        [HttpPost]
-        public ActionResult AddReleaseNotes(string versionNumber, string releaseNotes)
+        
+        [HttpPut]
+        public ActionResult AttachDocument(string versionNumber, string documentName, string contentType)
         {
-            DocumentSession.PutAttachment(versionNumber.MakeReleaseNotesKey(), Request.InputStream);
+            DocumentSession.PutAttachment(versionNumber.MakeCustomDocumentKey(documentName), contentType, Request.InputStream);
             return new EmptyResult();
+        }
+
+        [HttpGet]
+        public ActionResult GetDocument(string versionNumber, string documentName)
+        {
+            var doc = DocumentSession.GetAttachmentResult(versionNumber.MakeCustomDocumentKey(documentName));
+            return doc ?? new HttpNotFoundResult(string.Format("No {0} associated with release candidate {1}", documentName, versionNumber));
+        }
+
+        [HttpPut]
+        public ActionResult AttachScript(string versionNumber)
+        {
+            return AttachDocument(versionNumber, "deploy.ps1", "text/plain");
+        }
+
+        [HttpGet]
+        public ActionResult GetScript(string versionNumber)
+        {
+            return GetDocument(versionNumber, "deploy.ps1");
+        }
+
+
+        [HttpPut]
+        public ActionResult AttachReleaseNotes(string versionNumber)
+        {
+            return AttachDocument(versionNumber, "release-notes.txt", "text/plain");
+        }
+
+        [HttpGet]
+        public ActionResult GetReleaseNotes(string versionNumber)
+        {
+            return GetDocument(versionNumber, "release-notes.txt");
         }
     }
 }

@@ -8,18 +8,19 @@ namespace ReleaseCandidateTracker
 {
     public static class DocumentSessionExtensions
     {
-        public static void PutAttachment(this IDocumentSession documentSession, string key, Stream fileContents)
+        public static void PutAttachment(this IDocumentSession documentSession, string key, string contentType, Stream fileContents)
         {
             var metadata = new RavenJObject();
+            metadata["content-type"] = contentType;
             documentSession.Advanced.DatabaseCommands.PutAttachment(key, null, fileContents, metadata);
         }
 
-        public static ActionResult GetAttachmentResult(this IDocumentSession documentSession, string key, string contentType)
+        public static ActionResult GetAttachmentResult(this IDocumentSession documentSession, string key)
         {
             var attachment = documentSession.Advanced.DatabaseCommands.GetAttachment(key);
             if (attachment != null)
             {
-                var result = new FileStreamResult(attachment.Data(), contentType)
+                var result = new FileStreamResult(attachment.Data(), attachment.Metadata["content-type"].Value<string>())
                 {
                     FileDownloadName = key
                 };

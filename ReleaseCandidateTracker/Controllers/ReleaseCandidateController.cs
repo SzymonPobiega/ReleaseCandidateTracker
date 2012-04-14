@@ -14,14 +14,7 @@ namespace ReleaseCandidateTracker.Controllers
                 .OrderByDescending(x => x.CreationDate)
                 .ToList();
             return View(allCandidates);
-        }
-
-        [HttpGet]
-        public ActionResult GetScript(string versionNumber)
-        {
-            var attachment = DocumentSession.GetAttachmentResult(versionNumber.MakeDeploymentScriptKey(), "text/plain");
-            return attachment ?? new HttpNotFoundResult("Deployment script missing.");
-        }
+        }        
 
         [HttpGet]
         public ActionResult Details(string versionNumber)

@@ -1,17 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
+﻿using System.Web;
 using System.Web.Mvc;
 using System.Web.Routing;
 using ReleaseCandidateTracker.Infrastructure;
 
 namespace ReleaseCandidateTracker
 {
-    // Note: For instructions on enabling IIS6 or IIS7 classic mode, 
-    // visit http://go.microsoft.com/?LinkId=9394801
-
-    public class MvcApplication : System.Web.HttpApplication
+    public class MvcApplication : HttpApplication
     {
         public static void RegisterGlobalFilters(GlobalFilterCollection filters)
         {
@@ -25,7 +19,7 @@ namespace ReleaseCandidateTracker
 
             routes.MapRoute(
                 "Environment",
-                "Environment/{action}/{name}",
+                "env/{action}/{name}",
                 new
                 {
                     controller = "Environment",
@@ -35,7 +29,7 @@ namespace ReleaseCandidateTracker
 
             routes.MapRoute(
                 "EnvironmentApi",
-                "EnvironmentApi/{action}/{name}",
+                "env_api/{action}/{name}",
                 new
                 {
                     controller = "EnvironmentApi",
@@ -45,13 +39,33 @@ namespace ReleaseCandidateTracker
 
             routes.MapRoute(
                 "ReleaseCandidate",
+                "rc/{action}/{versionNumber}",
+                new
+                {
+                    controller = "ReleaseCandidate",
+                    action = "Index",
+                    versionNumber = UrlParameter.Optional
+                });
+
+            routes.MapRoute(
+                "ReleaseCandidateApi",
+                "rc_api/{action}/{versionNumber}",
+                new
+                {
+                    controller = "ReleaseCandidateApi",
+                    action = "Index",
+                    versionNumber = UrlParameter.Optional
+                });
+
+            routes.MapRoute(
+                "default",
                 "{controller}/{action}/{versionNumber}",
                 new
                 {
                     controller = "ReleaseCandidate",
                     action = "Index",
                     versionNumber = UrlParameter.Optional
-                });            
+                });
         }
 
         protected void Application_Start()

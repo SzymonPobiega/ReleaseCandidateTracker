@@ -43,7 +43,7 @@
         <td>
             @Html.ActionLink("Edit", "Edit", new { versionNumber = item.VersionNumber }) |
             @Html.ActionLink("Details", "Details", new { versionNumber = item.VersionNumber }) |
-            @Html.ActionLink("Deploy", "GetScript", new { versionNumber = item.VersionNumber })
+            @Html.ActionLink("Deploy", "GetScript", "ReleaseCandidateApi", new { versionNumber = item.VersionNumber }, new object())
         </td>
     </tr>
 }

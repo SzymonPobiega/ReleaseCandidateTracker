@@ -42,8 +42,8 @@
         }
     </div>
 </fieldset>
-<p>
-    @Html.ActionLink("Deploy", "GetScript", new { versionNumber = Model.VersionNumber }) |
+<p>    
+    @Html.ActionLink("Deploy", "GetScript", "ReleaseCandidateApi", new { versionNumber = Model.VersionNumber }, new object()) |
     @Html.ActionLink("Edit", "Edit", new { versionNumber = Model.VersionNumber }) |
     @Html.ActionLink("Back to List", "Index")
 </p>
