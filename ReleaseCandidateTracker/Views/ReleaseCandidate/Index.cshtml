@@ -5,6 +5,15 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
+<div id="environmentSummary">
+@foreach (var env in Model.Environments)
+{
+    <span>
+         @Html.ActionLink(env.Name, "Details", "Environment", new { name = env.Name }, new object()) : @(env.CurrentVersion != null ? Html.ActionLink(env.CurrentVersion, "Details", new { versionNumber = env.CurrentVersion }) : new HtmlString("n/a"))
+    </span>
+}
+</div>
+
 <h2>Release candidates</h2>
 
 <table>

@@ -332,3 +332,15 @@ div#title {
     float : right;
     width : 45%;
 }
+#environmentSummary
+{
+    float : right;    
+    font-weight : bold;
+}
+
+#environmentSummary span
+{    
+    margin-left: 30px;
+    margin-top : 5px;
+    margin-bottom : 5px;
+}

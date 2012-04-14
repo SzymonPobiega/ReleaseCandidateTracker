@@ -21,7 +21,11 @@ namespace ReleaseCandidateTracker.Controllers
 
             var query = DocumentSession
                 .Query<ReleaseCandidate>()
-                .OrderByDescending(x => x.CreationDate);            
+                .OrderByDescending(x => x.CreationDate);
+
+            var environments = DocumentSession
+                .Query<DeploymentEnvironment>()
+                .ToList();
 
             var allCandidates = page.HasValue && page.Value > 0
                                     ? GetPagedResult(page.Value, query)
@@ -33,6 +37,7 @@ namespace ReleaseCandidateTracker.Controllers
                             {
                                 Items = allCandidates,
                                 Page = currentPage,
+                                Environments = environments,
                                 First = currentPage == 1,
                                 Last = currentPage == pageCount
                             });
@@ -49,16 +54,19 @@ namespace ReleaseCandidateTracker.Controllers
         [HttpGet]
         public ActionResult Details(string versionNumber)
         {
-            var candidate = DocumentSession.GetCandidate(versionNumber);
+            var candidate = DocumentSession.GetCandidate(versionNumber);            
+            string releaseNotesText = "";
             var notesAttachment = DocumentSession.Advanced.DatabaseCommands.GetAttachment(versionNumber.MakeCustomDocumentKey("release-notes.txt"));
-            string releaseNotesText;
-            using (var stream = notesAttachment.Data())
+            if (notesAttachment != null)
             {
-                releaseNotesText = new StreamReader(stream).ReadToEnd();
+                using (var stream = notesAttachment.Data())
+                {
+                    releaseNotesText = new StreamReader(stream).ReadToEnd();
+                }
             }
             return View(new ReleaseCandidateViewModel
                             {
-                                Candidate = candidate,
+                                Candidate = candidate,                                
                                 ReleaseNotes = FormatReleaseNotesForHtml(releaseNotesText)
                             });
         }
