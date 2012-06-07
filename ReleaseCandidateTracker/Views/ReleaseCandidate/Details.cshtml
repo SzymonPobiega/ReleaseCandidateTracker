@@ -6,11 +6,11 @@
 }
 
 <h2>Details of @Model.Candidate.ProductName @Model.Candidate.VersionNumber</h2>
-<div id="releaseNotes">
+<div class="rightColumn">
 <h3>Release notes</h3>
 @Html.Raw(Model.ReleaseNotes)
 </div>
-<fieldset id="candidateDetails">
+<fieldset class="leftColumn">
     <div class="display-label">Product Name</div>
     <div class="display-field">
         @Html.DisplayFor(model => model.Candidate.ProductName)
@@ -48,7 +48,8 @@
     </div>
 </fieldset>
 <p>    
-    @Html.ActionLink("Deploy", "GetScript", "ReleaseCandidateApi", new { versionNumber = Model.Candidate.VersionNumber }, new object()) |
+    @Html.ActionLink("Deploy", "Deploy", "ReleaseCandidate", new { versionNumber = Model.Candidate.VersionNumber }, new object()) |
+    @Html.ActionLink("Download script", "GetScript", "ReleaseCandidateApi", new { versionNumber = Model.Candidate.VersionNumber }, new object()) |
     @Html.ActionLink("Edit", "Edit", new { versionNumber = Model.Candidate.VersionNumber }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

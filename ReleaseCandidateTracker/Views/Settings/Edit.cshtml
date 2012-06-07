@@ -1,0 +1,44 @@
+﻿@model ReleaseCandidateTracker.Models.Settings
+
+@{
+    ViewBag.Title = "Edit global settings";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Settings</h2>
+
+<script src="@Url.Content("~/Scripts/jquery.validate.min.js")" type="text/javascript"></script>
+<script src="@Url.Content("~/Scripts/jquery.validate.unobtrusive.min.js")" type="text/javascript"></script>
+
+@using (Html.BeginForm()) {
+    @Html.ValidationSummary(true)
+    <div class="rightColumn">
+One-click deployment requires installing <a href="https://github.com/SzymonPobiega/PowerShellHtmlConsole">PowerShellHtmlConsole</a>. Please provide here path to directory
+where you downloaded the PSHC binaries. It will be used as working folder for the deployment scripts.
+</div>
+    <fieldset class="leftColumn">       
+        <div class="editor-label">
+            One-click deployment working directory
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.DeploymentWorkingDirectory)
+            @Html.ValidationMessageFor(model => model.DeploymentWorkingDirectory)
+        </div>
+
+        <div class="editor-label">
+            Grid page size
+        </div>
+        <div class="editor-field">
+            @Html.EditorFor(model => model.PageSize)
+            @Html.ValidationMessageFor(model => model.PageSize)
+        </div>
+
+        <p>
+            <input type="submit" value="Save" />
+        </p>
+    </fieldset>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index", "ReleaseCandidate")
+</div>

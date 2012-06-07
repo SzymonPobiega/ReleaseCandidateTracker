@@ -323,11 +323,11 @@ div#title {
 }
 /* Custom
 */
-#candidateDetails 
+.leftColumn 
 {
     width : 50%;
 }
-#releaseNotes
+.rightColumn
 {
     float : right;
     width : 45%;

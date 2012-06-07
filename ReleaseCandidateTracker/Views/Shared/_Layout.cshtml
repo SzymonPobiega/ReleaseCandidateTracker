@@ -13,10 +13,14 @@
             <div id="title">
                 <h1>Release candidate tracker</h1>
             </div>
+            <div>
+                @TempData["Message"]
+            </div>
             <nav>
                 <ul id="menu">
                     <li>@Html.ActionLink("Candidates", "Index", "ReleaseCandidate")</li>
                     <li>@Html.ActionLink("Environments", "Index", "Environment")</li>
+                    <li>@Html.ActionLink("Settings", "Edit", "Settings")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
                 </ul>
             </nav>

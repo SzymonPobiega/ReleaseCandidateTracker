@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Threading;
 using System.Web.Mvc;
 using Raven.Client.Linq;
 using ReleaseCandidateTracker.Models;
@@ -11,10 +13,10 @@ namespace ReleaseCandidateTracker.Controllers
 {
     public class ReleaseCandidateController : BaseController
     {
-        private const int PageSize = 20;
-
         public ActionResult Index(int? page)
         {
+            var settings = DocumentSession.GetSettings();
+
             decimal totalCount = DocumentSession
                 .Query<ReleaseCandidate>()
                 .Count();
@@ -28,11 +30,11 @@ namespace ReleaseCandidateTracker.Controllers
                 .ToList();
 
             var allCandidates = page.HasValue && page.Value > 0
-                                    ? GetPagedResult(page.Value, query)
-                                    : query.Take(PageSize).ToList();
+                                    ? GetPagedResult(page.Value, settings.PageSize, query)
+                                    : query.Take(settings.PageSize).ToList();
 
             var currentPage = page ?? 1;
-            var pageCount = (int)Math.Ceiling(totalCount / (decimal) PageSize);
+            var pageCount = (int)Math.Ceiling(totalCount / (decimal) settings.PageSize);
             return View(new ReleaseCandidateListViewModel
                             {
                                 Items = allCandidates,
@@ -43,12 +45,40 @@ namespace ReleaseCandidateTracker.Controllers
                             });
         }
 
-        private static List<ReleaseCandidate> GetPagedResult(int page, IRavenQueryable<ReleaseCandidate> query)
+        private static List<ReleaseCandidate> GetPagedResult(int page, int pageSize, IRavenQueryable<ReleaseCandidate> query)
         {
             return query
-                .Skip((page - 1)*PageSize)                    
-                .Take(PageSize)
+                .Skip((page - 1)*pageSize)                    
+                .Take(pageSize)
                 .ToList();
+        }
+
+        [HttpGet]
+        public ActionResult Deploy(string versionNumber)
+        {
+            var settings = DocumentSession.GetSettings();
+            if (string.IsNullOrEmpty(settings.DeploymentWorkingDirectory))
+            {
+                TempData["Message"] = "Please specify deployment working directory";
+                return RedirectToAction("Edit", "Settings");
+            }
+
+            var deployScriptKey = versionNumber.MakeCustomDocumentKey("deploy.ps1");
+            var deployScript = DocumentSession.Advanced.DatabaseCommands.GetAttachment(deployScriptKey);
+
+            using (var fileStream = System.IO.File.Create(Path.Combine(settings.DeploymentWorkingDirectory, deployScriptKey)))
+            {
+                deployScript.Data().CopyTo(fileStream);
+            }
+
+            var uniqueId = Guid.NewGuid().ToString();
+            var listenUrl = string.Format("http://{0}:8000/{1}", Environment.MachineName, uniqueId);
+            var startInfo = new ProcessStartInfo(Path.Combine(settings.DeploymentWorkingDirectory, "PowerShellHtmlConsole.exe"),
+                string.Format(@"--listen={0} --script=.\{1}", listenUrl,deployScriptKey));
+            startInfo.WorkingDirectory = settings.DeploymentWorkingDirectory;
+            Process.Start(startInfo);
+            Thread.Sleep(5000);
+            return Redirect(listenUrl + "/console.htm");
         }
 
         [HttpGet]

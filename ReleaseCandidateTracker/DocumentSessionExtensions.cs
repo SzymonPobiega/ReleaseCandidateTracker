@@ -8,6 +8,19 @@ namespace ReleaseCandidateTracker
 {
     public static class DocumentSessionExtensions
     {
+        private const string SettingsKey = "settings";
+
+        public static Settings GetSettings(this IDocumentSession documentSession)
+        {
+            var existingSettings = documentSession.Load<Settings>(SettingsKey);
+            if (existingSettings == null)
+            {
+                existingSettings = new Settings();
+                documentSession.Store(existingSettings, SettingsKey);
+            }
+            return existingSettings;
+        }
+
         public static void PutAttachment(this IDocumentSession documentSession, string key, string contentType, Stream fileContents)
         {
             var metadata = new RavenJObject();
