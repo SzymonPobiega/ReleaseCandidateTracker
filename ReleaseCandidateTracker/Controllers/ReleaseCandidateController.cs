@@ -72,7 +72,7 @@ namespace ReleaseCandidateTracker.Controllers
             }
 
             var uniqueId = Guid.NewGuid().ToString();
-            var listenUrl = string.Format("http://{0}:8000/{1}", Environment.MachineName, uniqueId);
+            var listenUrl = string.Format("http://{0}:12345/{1}", Environment.MachineName, uniqueId);
             var startInfo = new ProcessStartInfo(Path.Combine(settings.DeploymentWorkingDirectory, "PowerShellHtmlConsole.exe"),
                 string.Format(@"--listen={0} --script=.\{1}", listenUrl,deployScriptKey));
             startInfo.WorkingDirectory = settings.DeploymentWorkingDirectory;

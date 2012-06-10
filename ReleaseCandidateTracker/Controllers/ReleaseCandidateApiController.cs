@@ -24,11 +24,11 @@ namespace ReleaseCandidateTracker.Controllers
                 .OrderByDescending(x => x.CreationDate)
                 .Take(20)
                 .ToList()
-                .Select(x => string.Format("{0};{1};{2}",x.VersionNumber,x.State,x.CreationDate.ToString("s")));
+                .Select(x => string.Format("{0};{1};{2};{3}",x.ProductName, x.VersionNumber,x.State,x.CreationDate.ToString("s")));
 
             return new ContentResult
                        {
-                           Content = "Version;State;CreationDate\r\n" + string.Join("\r\n", candidates)
+                           Content = "ProductName;Version;State;CreationDate\r\n" + string.Join("\r\n", candidates)
                        };
         }
 
