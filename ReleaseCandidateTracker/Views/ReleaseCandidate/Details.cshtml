@@ -48,8 +48,8 @@
     </div>
 </fieldset>
 <p>    
-    @Html.ActionLink("Deploy", "Deploy", "ReleaseCandidate", new { versionNumber = Model.Candidate.VersionNumber }, new object()) |
-    @Html.ActionLink("Download script", "GetScript", "ReleaseCandidateApi", new { versionNumber = Model.Candidate.VersionNumber }, new object()) |
-    @Html.ActionLink("Edit", "Edit", new { versionNumber = Model.Candidate.VersionNumber }) |
+    @Html.ActionLink("Deploy", "Deploy", "ReleaseCandidate", new { versionNumber = Model.Candidate.FullVersion }, new object()) |
+    @Html.ActionLink("Download script", "GetScript", "ReleaseCandidateApi", new { versionNumber = Model.Candidate.FullVersion }, new object()) |
+    @Html.ActionLink("Edit", "Edit", new { versionNumber = Model.Candidate.FullVersion }) |
     @Html.ActionLink("Back to List", "Index")
 </p>

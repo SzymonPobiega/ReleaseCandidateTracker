@@ -50,9 +50,9 @@
             @Html.DisplayFor(modelItem => item.VersionNumber)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { versionNumber = item.VersionNumber }) |
-            @Html.ActionLink("Details", "Details", new { versionNumber = item.VersionNumber }) |
-            @Html.ActionLink("Deploy", "Deploy", "ReleaseCandidate", new { versionNumber = item.VersionNumber }, new object())
+            @Html.ActionLink("Edit", "Edit", new { versionNumber = item.FullVersion }) |
+            @Html.ActionLink("Details", "Details", new { versionNumber = item.FullVersion }) |
+            @Html.ActionLink("Deploy", "Deploy", "ReleaseCandidate", new { versionNumber = item.FullVersion }, new object())
         </td>
     </tr>
 }

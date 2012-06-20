@@ -3,7 +3,6 @@
     public static class IdExtensions
     {
         
-
         public static string MakeCandidateId(this string version)
         {
             return "candidates/" + version;

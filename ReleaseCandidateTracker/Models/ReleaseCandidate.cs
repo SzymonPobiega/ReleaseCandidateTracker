@@ -5,6 +5,7 @@ namespace ReleaseCandidateTracker.Models
 {
     public class ReleaseCandidate
     {
+        public string FullVersion { get { return ProductName + "-" + VersionNumber; } }
         public string ProductName { get; set; }
         public DateTime CreationDate { get; set; }
         public ReleaseCandidateState State { get; set; }

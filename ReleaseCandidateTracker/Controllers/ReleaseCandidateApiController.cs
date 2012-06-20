@@ -61,12 +61,13 @@ namespace ReleaseCandidateTracker.Controllers
                 ProductName = formPost.ProductName,
                 State = formPost.State
             };
-            var existing = DocumentSession.Load<ReleaseCandidate>(candidate.VersionNumber.MakeCandidateId());
+            var candidateId = candidate.FullVersion.MakeCandidateId();
+            var existing = DocumentSession.Load<ReleaseCandidate>(candidateId);
             if (existing != null)
             {
                 throw new HttpException(409, string.Format("Release candidate {0} already exists", candidate.VersionNumber));
             }
-            DocumentSession.Store(candidate, candidate.VersionNumber.MakeCandidateId());
+            DocumentSession.Store(candidate, candidateId);
             return new EmptyResult();
         }
 
